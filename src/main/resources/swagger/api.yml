@@ -31,7 +31,7 @@ paths:
               $ref: '#/components/schemas/ClienteRequest'
       responses:
         201:
-          $ref: '#/components/responses/Creado'
+          $ref: '#/components/responses/Criado'
         400:
           description: '#components/responses/ErroEnvio'
         500:
@@ -97,8 +97,8 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/ClienteResponseList'
-    Creado:
-      description: Creado com sucesso
+    Criado:
+      description: Criado com sucesso
       content:
         application/json:
           schema:
