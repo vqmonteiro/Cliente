@@ -1,0 +1,186 @@
+openapi: 3.0.0
+info:
+  description: API para trabalhar com Clientes
+  version: "1.0.0"
+  title: Cliente API
+  contact:
+    email: adm@redspark.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+servers:
+  - url: /v1
+paths:
+  /cliente:
+    get:
+      operationId: getAllclientes
+      summary: Buscar todos os clientes
+      responses:
+        200:
+          $ref: '#/components/responses/OkList'
+        500:
+          $ref: '#/components/responses/ErroGenerico'
+    post:
+      operationId: postCliente
+      summary: Realiza a criação de um cliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteRequest'
+      responses:
+        201:
+          $ref: '#/components/responses/Creado'
+        400:
+          description: '#components/responses/ErroEnvio'
+        500:
+          $ref: '#/components/responses/ErroGenerico'
+
+  /cliente/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+          format: int64
+        required: true
+        example: 1
+        description: id do cliente
+    get:
+      operationId: getCliente
+      summary: Pegar um cliente
+      responses:
+        200:
+          $ref: '#/components/responses/Ok'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ErroGenerico'
+    put:
+      operationId: putCliente
+      summary: Alterar um cliente ja existente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteRequest'
+      responses:
+        202:
+          $ref: '#/components/responses/Aceito'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ErroGenerico'
+    delete:
+      operationId: deleteCliente
+      summary: deletar um cliente
+      responses:
+        204:
+          $ref: '#/components/responses/SemConteudo'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/ErroGenerico'
+
+components:
+  responses:
+    Ok:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClienteResponse'
+    OkList:
+      description: retorno da lista
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClienteResponseList'
+    Creado:
+      description: Creado com sucesso
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClienteResponse'
+    Aceito:
+      description: Aceito
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ClienteResponse'
+    SemConteudo:
+      description: Recurso deletado
+
+    NotFound:
+      description: cliente não encontrado
+    ErroEnvio:
+      description: Erro de envio de cliente
+    ErroGenerico:
+      description: Erro Interno do servidor
+
+  schemas:
+    ClienteResponse:
+      type: object
+      description: objeto que representa um cliente
+      required:
+        - id
+        - nome
+        - dataNascimento
+        - profissao
+        - cnpj
+        - email
+      properties:
+        id:
+          type: string
+          example: 1
+        nome:
+          type: string
+          example: Vinicius Monteiro
+        dataNascimento:
+          type: string
+          format: full-date
+          example: 2020-02-21
+        profissao:
+          type: string
+          example: Analista de Sistemas
+        cnpj:
+          type: integer
+          format: int32
+          example: 1234567890
+        email:
+          type: string
+          format: email
+          example: vinicius.monteiro@redspark.io
+    ClienteRequest:
+      type: object
+      description: objeto que representa um cliente
+      required:
+        - nome
+        - dataNascimento
+        - profissao
+        - cnpj
+        - email
+      properties:
+        nome:
+          type: string
+          example: Vinicius Monteiro
+        dataNascimento:
+          type: string
+          format: full-date
+          example: 2020-02-21
+        profissao:
+          type: string
+          example: Analista de Sistemas
+        cnpj:
+          type: integer
+          format: int32
+          example: 1234567890
+        email:
+          type: string
+          format: email
+          example: adm@redspark.io
+    ClienteResponseList:
+      type: array
+      items:
+        $ref: '#/components/schemas/ClienteResponse'
