@@ -151,7 +151,7 @@ components:
         email:
           type: string
           format: email
-          example: vinicius.monteiro@redspark.io
+          example: adm@redspark.io
     ClienteRequest:
       type: object
       description: objeto que representa um cliente
